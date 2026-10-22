@@ -1,0 +1,1293 @@
+/* yinyuncloud.link - 高精钟表仪器与大地测量精密刻度设计系统 */
+:root {
+  --gauge-bg: #0b0f19;
+  --gauge-surface: #111827;
+  --gauge-panel: #162032;
+  --gauge-border: #1f2e48;
+  --gauge-gold: #f59e0b;
+  --gauge-bronze: #d97706;
+  --gauge-steel: #e2e8f0;
+  --gauge-muted: #94a3b8;
+  --gauge-dim: #64748b;
+  --gauge-ruby: #ef4444;
+  --font-precision: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-precision);
+  background-color: var(--gauge-bg);
+  color: var(--gauge-steel);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* 顶部经纬表头导航 */
+.chronometer-masthead {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(11, 15, 25, 0.96);
+  border-bottom: 1px solid var(--gauge-border);
+  padding: 0.85rem 1.5rem;
+}
+
+.masthead-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-dial {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--gauge-steel);
+}
+
+.brand-dial svg {
+  height: 38px;
+  width: auto;
+}
+
+.dial-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+}
+
+.dial-nav-links a {
+  color: var(--gauge-muted);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+
+.dial-nav-links a:hover {
+  color: var(--gauge-gold);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-calibrate-top,
+.btn-calibrate-top:link,
+.btn-calibrate-top:visited {
+  background: linear-gradient(135deg, var(--gauge-bronze), var(--gauge-gold));
+  color: #080c14 !important;
+  -webkit-text-fill-color: #080c14 !important;
+  font-weight: 800;
+  font-size: 0.85rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 4px;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.35);
+  transition: transform 0.2s;
+  white-space: nowrap;
+}
+
+.btn-calibrate-top:hover,
+.btn-calibrate-top:focus,
+.btn-calibrate-top:active {
+  color: #080c14 !important;
+  -webkit-text-fill-color: #080c14 !important;
+  transform: translateY(-1px);
+}
+
+.nav-toggle {
+  display: none;
+}
+
+/* 高精钟表 Hero */
+.chronograph-hero {
+  padding: 4.5rem 0 3rem;
+  position: relative;
+}
+
+.hero-balance-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.chronometer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  padding: 0.35rem 0.9rem;
+  border-radius: 3px;
+  font-size: 0.78rem;
+  color: #fbbf24;
+  margin-bottom: 1.25rem;
+  font-weight: 600;
+}
+
+.ruby-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--gauge-ruby);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--gauge-ruby);
+}
+
+.chronograph-title {
+  font-size: 2.85rem;
+  font-weight: 900;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.25rem;
+}
+
+.chronograph-title span {
+  background: linear-gradient(135deg, #fef3c7, var(--gauge-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.chronograph-subtitle {
+  font-size: 1.05rem;
+  color: var(--gauge-muted);
+  line-height: 1.75;
+  margin-bottom: 2rem;
+}
+
+.chronograph-cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.btn-chronometer-primary,
+.btn-chronometer-primary:link,
+.btn-chronometer-primary:visited {
+  min-height: 48px;
+  padding: 0.85rem 1.85rem;
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+  color: #080c14 !important;
+  -webkit-text-fill-color: #080c14 !important;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1rem;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 16px rgba(217, 119, 6, 0.35);
+  transition: all 0.2s ease;
+}
+
+.btn-chronometer-primary span {
+  color: #080c14 !important;
+  -webkit-text-fill-color: #080c14 !important;
+}
+
+.btn-chronometer-primary svg {
+  stroke: #080c14 !important;
+}
+
+.btn-chronometer-primary:hover,
+.btn-chronometer-primary:focus,
+.btn-chronometer-primary:active {
+  color: #080c14 !important;
+  -webkit-text-fill-color: #080c14 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);
+  background: linear-gradient(135deg, #b45309, #d97706);
+}
+
+.btn-chronometer-primary:hover span,
+.btn-chronometer-primary:focus span,
+.btn-chronometer-primary:active span {
+  color: #080c14 !important;
+  -webkit-text-fill-color: #080c14 !important;
+}
+
+.btn-chronometer-primary:hover svg,
+.btn-chronometer-primary:focus svg,
+.btn-chronometer-primary:active svg {
+  stroke: #080c14 !important;
+}
+
+.btn-chronometer-pbn,
+.btn-chronometer-pbn:link,
+.btn-chronometer-pbn:visited {
+  min-height: 48px;
+  padding: 0.85rem 1.65rem;
+  background: #141d2f;
+  color: #fde68a !important;
+  -webkit-text-fill-color: #fde68a !important;
+  border: 1px solid #233552;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.btn-chronometer-pbn span {
+  color: #fde68a !important;
+  -webkit-text-fill-color: #fde68a !important;
+}
+
+.btn-chronometer-pbn svg {
+  stroke: #fde68a !important;
+}
+
+.btn-chronometer-pbn:hover,
+.btn-chronometer-pbn:focus,
+.btn-chronometer-pbn:active {
+  background: #1e2c46;
+  border-color: var(--gauge-gold);
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  transform: translateY(-2px);
+}
+
+.btn-chronometer-pbn:hover span,
+.btn-chronometer-pbn:focus span,
+.btn-chronometer-pbn:active span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.btn-chronometer-pbn:hover svg,
+.btn-chronometer-pbn:focus svg,
+.btn-chronometer-pbn:active svg {
+  stroke: #ffffff !important;
+}
+
+.calibration-notes {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.8rem;
+  color: var(--gauge-dim);
+}
+
+/* 右侧经纬微米表盘仪表 */
+.chronometer-dial-panel {
+  background: var(--gauge-panel);
+  border: 1px solid var(--gauge-border);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+}
+
+.dial-panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--gauge-border);
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.dial-panel-head span {
+  font-size: 0.78rem;
+  color: var(--gauge-gold);
+  font-family: monospace;
+}
+
+.chronograph-dial-display {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.gauge-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0f1624;
+  padding: 0.85rem 1rem;
+  border-radius: 4px;
+  border-left: 3px solid var(--gauge-bronze);
+}
+
+.gauge-row.active {
+  border-left-color: var(--gauge-gold);
+}
+
+.gauge-meta h4 {
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.gauge-meta p {
+  font-size: 0.72rem;
+  color: var(--gauge-dim);
+}
+
+.gauge-value {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #fbbf24;
+  font-family: monospace;
+}
+
+/* 标定数据指标条 */
+.micrometer-telemetry-bar {
+  margin: 3.5rem auto 4.5rem;
+  background: #111a2b;
+  border: 1px solid var(--gauge-border);
+  border-radius: 6px;
+  padding: 1.5rem 2rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.telemetry-cell {
+  text-align: center;
+}
+
+.cell-num {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.cell-num span {
+  font-size: 0.95rem;
+  color: var(--gauge-gold);
+  font-weight: 700;
+}
+
+.cell-txt {
+  font-size: 0.8rem;
+  color: var(--gauge-muted);
+  margin-top: 0.25rem;
+}
+
+/* 板块通用头部 */
+.precision-section {
+  padding: 4.5rem 0;
+}
+
+.precision-head {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 3rem;
+}
+
+.precision-kicker {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--gauge-gold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.precision-title {
+  font-size: 2.15rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: #f8fafc;
+}
+
+.precision-subtitle {
+  font-size: 0.95rem;
+  color: var(--gauge-muted);
+  margin-top: 0.75rem;
+}
+
+/* 核心优势板块 - 磐石级链路稳定度（3张精密卡片） */
+.chronometer-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+
+.chronometer-feature-card {
+  background: var(--gauge-panel);
+  border: 1px solid var(--gauge-border);
+  border-radius: 6px;
+  padding: 2.25rem 1.75rem;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.chronometer-feature-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(245, 158, 11, 0.5);
+}
+
+.dial-icon-container {
+  width: 50px;
+  height: 50px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gauge-gold);
+  margin-bottom: 1.25rem;
+}
+
+.dial-icon-container svg {
+  width: 26px;
+  height: 26px;
+}
+
+.feature-dial-title {
+  font-size: 1.18rem;
+  font-weight: 700;
+  margin-bottom: 0.65rem;
+  color: #f8fafc;
+}
+
+.feature-dial-desc {
+  font-size: 0.88rem;
+  color: var(--gauge-muted);
+  line-height: 1.65;
+}
+
+/* 全时域高精网络互联（3张卡片） */
+.interconnect-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+
+.interconnect-card {
+  background: #111a2c;
+  border: 1px solid var(--gauge-border);
+  border-radius: 6px;
+  padding: 1.75rem;
+}
+
+.interconnect-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.interconnect-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gauge-gold);
+}
+
+.interconnect-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.interconnect-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.interconnect-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
+.chip {
+  font-size: 0.72rem;
+  padding: 0.2rem 0.55rem;
+  background: #19253d;
+  color: #fde68a;
+  border-radius: 3px;
+  border: 1px solid #283a5e;
+}
+
+/* 价格对比表（3个方案） */
+.horology-pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+  align-items: stretch;
+}
+
+.calibre-card {
+  background: var(--gauge-panel);
+  border: 1px solid var(--gauge-border);
+  border-radius: 6px;
+  padding: 2.25rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.calibre-card.calibre-master {
+  border-color: var(--gauge-gold);
+  background: #182338;
+  box-shadow: 0 12px 32px rgba(217, 119, 6, 0.25);
+}
+
+.calibre-ribbon {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--gauge-bronze), var(--gauge-gold));
+  color: #0b0f19;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.25rem 0.95rem;
+  border-radius: 20px;
+}
+
+.calibre-name {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+}
+
+.calibre-summary {
+  font-size: 0.85rem;
+  color: var(--gauge-muted);
+  min-height: 2.4rem;
+}
+
+.calibre-rate-box {
+  margin: 1.5rem 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.calibre-currency {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gauge-gold);
+}
+
+.calibre-rate {
+  font-size: 2.65rem;
+  font-weight: 900;
+  color: #fff;
+}
+
+.calibre-span {
+  font-size: 0.85rem;
+  color: var(--gauge-muted);
+}
+
+.calibre-checklist {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  flex-grow: 1;
+}
+
+.calibre-checklist li {
+  font-size: 0.88rem;
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.calibre-checklist li svg {
+  width: 16px;
+  height: 16px;
+  color: var(--gauge-gold);
+  flex-shrink: 0;
+}
+
+.btn-calibre-action,
+.btn-calibre-action:link,
+.btn-calibre-action:visited {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111827;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 4px;
+  border: 1px solid #233552;
+  transition: all 0.2s ease;
+}
+
+.btn-calibre-action:hover,
+.btn-calibre-action:focus,
+.btn-calibre-action:active {
+  background: #1e2c44;
+  border-color: #3b5278;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.calibre-card.calibre-master .btn-calibre-action,
+.calibre-card.calibre-master .btn-calibre-action:link,
+.calibre-card.calibre-master .btn-calibre-action:visited {
+  background: linear-gradient(135deg, var(--gauge-bronze), var(--gauge-gold));
+  color: #080c14 !important;
+  -webkit-text-fill-color: #080c14 !important;
+  border: none;
+}
+
+.calibre-card.calibre-master .btn-calibre-action:hover,
+.calibre-card.calibre-master .btn-calibre-action:focus,
+.calibre-card.calibre-master .btn-calibre-action:active {
+  background: linear-gradient(135deg, #b45309, #d97706);
+  color: #080c14 !important;
+  -webkit-text-fill-color: #080c14 !important;
+}
+
+/* 工程师与学者口碑（3张卡片） */
+.engineer-logs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+
+.engineer-log-card {
+  background: var(--gauge-panel);
+  border: 1px solid var(--gauge-border);
+  border-radius: 6px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.engineer-log-quote {
+  font-size: 0.92rem;
+  color: #e2e8f0;
+  line-height: 1.75;
+  margin-bottom: 1.5rem;
+}
+
+.engineer-author-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.engineer-dial-badge {
+  width: 42px;
+  height: 42px;
+  border-radius: 4px;
+  background: #141d2f;
+  border: 1px solid var(--gauge-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: var(--gauge-gold);
+  font-size: 0.9rem;
+}
+
+.engineer-meta-text h4 {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.engineer-meta-text p {
+  font-size: 0.75rem;
+  color: var(--gauge-dim);
+}
+
+/* FAQ 常见问答（4个） */
+.faq-gauge-stack {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.faq-gauge-card {
+  background: var(--gauge-panel);
+  border: 1px solid var(--gauge-border);
+  border-radius: 6px;
+  padding: 1.35rem 1.6rem;
+}
+
+.faq-gauge-q {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.55rem;
+}
+
+.faq-gauge-q svg {
+  width: 18px;
+  height: 18px;
+  color: var(--gauge-gold);
+  flex-shrink: 0;
+}
+
+.faq-gauge-a {
+  font-size: 0.9rem;
+  color: var(--gauge-muted);
+  line-height: 1.7;
+  padding-left: 1.75rem;
+}
+
+/* 页脚底座（严格仅限4个标题） */
+.dial-base {
+  margin-top: 5rem;
+  background: #080c14;
+  border-top: 1px solid var(--gauge-border);
+  padding: 2.75rem 1.5rem;
+}
+
+.dial-base-nav {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3.5rem;
+  list-style: none;
+}
+
+.dial-base-nav a {
+  color: var(--gauge-muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.dial-base-nav a:hover {
+  color: var(--gauge-gold);
+}
+
+/* 子页面独立排版 */
+.subpage-gauge-hero {
+  padding: 3.5rem 0 2rem;
+  border-bottom: 1px solid var(--gauge-border);
+  background: linear-gradient(180deg, #131c2e 0%, var(--gauge-bg) 100%);
+  text-align: center;
+}
+
+.subpage-gauge-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.subpage-gauge-desc {
+  color: var(--gauge-muted);
+  font-size: 1rem;
+}
+
+.subpage-gauge-body {
+  padding: 3.5rem 0 5rem;
+}
+
+.gauge-article {
+  max-width: 860px;
+  margin: 0 auto;
+  background: var(--gauge-panel);
+  border: 1px solid var(--gauge-border);
+  border-radius: 6px;
+  padding: 2.5rem;
+}
+
+.gauge-doc-unit {
+  margin-bottom: 2.5rem;
+}
+
+.gauge-doc-unit:last-child {
+  margin-bottom: 0;
+}
+
+.gauge-doc-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--gauge-gold);
+  margin-bottom: 1rem;
+  border-left: 3px solid var(--gauge-bronze);
+  padding-left: 0.75rem;
+}
+
+.gauge-doc-p {
+  font-size: 0.95rem;
+  color: #cbd5e1;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.gauge-doc-list {
+  padding-left: 1.5rem;
+  color: #cbd5e1;
+  line-height: 1.8;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.gauge-doc-list li {
+  margin-bottom: 0.5rem;
+}
+
+.sitemap-gauge-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.sitemap-gauge-cell {
+  background: #0f1624;
+  border: 1px solid var(--gauge-border);
+  border-radius: 4px;
+  padding: 1.5rem;
+}
+
+.sitemap-gauge-cell h3 {
+  font-size: 1.1rem;
+  color: var(--gauge-gold);
+  margin-bottom: 1rem;
+}
+
+.sitemap-gauge-cell ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.sitemap-gauge-cell a {
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.sitemap-gauge-cell a:hover {
+  color: var(--gauge-gold);
+}
+
+/* 响应式断点 */
+@media (max-width: 992px) {
+  .hero-balance-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .chronometer-cards-grid,
+  .interconnect-grid,
+  .horology-pricing-grid,
+  .engineer-logs-grid {
+    grid-template-columns: 1fr;
+  }
+  .micrometer-telemetry-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .chronometer-masthead {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  .masthead-inner {
+    position: relative;
+  }
+  .nav-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 38px;
+    height: 38px;
+    background: rgba(15, 22, 36, 0.9);
+    border: 1px solid var(--gauge-border);
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.25s ease;
+  }
+  .nav-toggle:hover {
+    border-color: var(--gauge-gold);
+    background: rgba(28, 38, 58, 0.95);
+  }
+  .nav-toggle .bar {
+    width: 20px;
+    height: 2px;
+    background-color: var(--gauge-gold);
+    border-radius: 2px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .nav-toggle.is-active {
+    border-color: var(--gauge-gold);
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+  }
+  .nav-toggle.is-active .bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .nav-toggle.is-active .bar:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .nav-toggle.is-active .bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .dial-nav-links {
+    display: none;
+    position: absolute;
+    top: calc(100% + 0.85rem);
+    left: -1.5rem;
+    right: -1.5rem;
+    width: calc(100% + 3rem);
+    background: rgba(9, 13, 21, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 2px solid var(--gauge-gold);
+    border-top: 1px solid rgba(245, 158, 11, 0.15);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.85);
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem 1.5rem 1.25rem;
+    gap: 0.6rem;
+    z-index: 9999;
+    max-height: calc(100vh - 75px);
+    overflow-y: auto;
+  }
+  .dial-nav-links.is-open {
+    display: flex;
+    animation: chronometerUnfurl 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes chronometerUnfurl {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .dial-nav-links li {
+    width: 100%;
+    list-style: none;
+  }
+  .dial-nav-links a {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 44px;
+    padding: 0.75rem 1.1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    background: rgba(20, 29, 46, 0.55);
+    border: 1px solid var(--gauge-border);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .dial-nav-links a:hover,
+  .dial-nav-links a:active {
+    color: var(--gauge-gold);
+    background: rgba(217, 119, 6, 0.2);
+    border-color: rgba(245, 158, 11, 0.5);
+    padding-left: 1.35rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .chronograph-title {
+    font-size: 2.1rem;
+  }
+  .chronograph-cta-group {
+    flex-direction: column;
+    width: 100%;
+  }
+  .btn-chronometer-primary,
+  .btn-chronometer-pbn {
+    width: 100%;
+    min-height: 50px;
+  }
+  .micrometer-telemetry-bar {
+    grid-template-columns: 1fr;
+    padding: 1.25rem;
+  }
+  .dial-base-nav {
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+}
+
+
+/* 全局可点击正文链接高亮样式规范 (Persistent Brand Accent Links) */
+a:not([class*="btn-"]):not([class*="brand-"]) {
+  color: #fbbf24;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+a:not([class*="btn-"]):not([class*="brand-"]):visited {
+  color: #fbbf24;
+}
+
+a:not([class*="btn-"]):not([class*="brand-"]):hover,
+a:not([class*="btn-"]):not([class*="brand-"]):focus {
+  color: #fef08a;
+  text-decoration-color: #fef08a;
+}
+
+/* 资讯中心与文章详情排版 */
+.news-hub-hero {
+  padding: 4rem 0 2.5rem;
+  background: linear-gradient(180deg, #131d2e 0%, var(--gauge-bg) 100%);
+  border-bottom: 1px solid var(--gauge-border);
+  text-align: center;
+}
+
+.news-hub-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+}
+
+.news-hub-desc {
+  color: var(--gauge-muted);
+  font-size: 1.05rem;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  padding: 3.5rem 0 5rem;
+}
+
+.article-card {
+  background: var(--gauge-panel);
+  border: 1px solid var(--gauge-border);
+  border-radius: 6px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.article-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(251, 191, 36, 0.5);
+}
+
+.card-badge-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.article-cat-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+  border: 1px solid rgba(251, 191, 36, 0.25);
+}
+
+.article-read-time {
+  font-size: 0.78rem;
+  color: var(--gauge-dim);
+}
+
+.article-card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+}
+
+.article-card-title a {
+  color: #f8fafc;
+  text-decoration: none;
+}
+
+.article-card-title a:visited {
+  color: #f8fafc;
+}
+
+.article-card-title a:hover {
+  color: #fbbf24;
+}
+
+.article-card-excerpt {
+  font-size: 0.9rem;
+  color: var(--gauge-muted);
+  line-height: 1.65;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.article-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--gauge-border);
+  padding-top: 1rem;
+}
+
+.article-author-info {
+  font-size: 0.8rem;
+  color: var(--gauge-dim);
+}
+
+.article-read-more {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fbbf24;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.article-read-more:hover {
+  color: #fef08a;
+}
+
+/* 单篇文章详情页排版 */
+.article-header {
+  padding: 4rem 0 2rem;
+  max-width: 860px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--gauge-border);
+}
+
+.article-meta-bar {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.85rem;
+  color: var(--gauge-dim);
+}
+
+.article-h1-title {
+  font-size: 2.35rem;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.article-lead-p {
+  font-size: 1.1rem;
+  color: var(--gauge-muted);
+  line-height: 1.8;
+}
+
+.article-body-wrapper {
+  max-width: 860px;
+  margin: 3rem auto 5rem;
+  background: var(--gauge-panel);
+  border: 1px solid var(--gauge-border);
+  border-radius: 6px;
+  padding: 3rem;
+}
+
+.article-rich-content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 2.25rem 0 1rem;
+  border-left: 4px solid var(--gauge-bronze);
+  padding-left: 0.85rem;
+}
+
+.article-rich-content h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fbbf24;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.article-rich-content p {
+  font-size: 1rem;
+  color: #cbd5e1;
+  line-height: 1.85;
+  margin-bottom: 1.35rem;
+}
+
+.article-rich-content ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #cbd5e1;
+  line-height: 1.8;
+}
+
+.article-rich-content ul li {
+  margin-bottom: 0.5rem;
+}
+
+.article-rich-content strong {
+  color: #ffffff;
+}
+
+.article-rich-content a {
+  color: #fbbf24;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.article-rich-content a:visited {
+  color: #fbbf24;
+}
+
+.article-rich-content a:hover {
+  color: #fef08a;
+}
+
+.post-back-bar {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--gauge-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

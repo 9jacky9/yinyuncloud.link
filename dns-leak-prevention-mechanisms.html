@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>警惕看不见的漏洞：DNS泄漏原理剖析与全链路防泄漏实操 - 隐云机场</title>
+  <meta name="description" content="深入解构网络代理环境下的DNS泄漏隐患，分析操作系统解析优先级、WebRTC刺探机制与DoH/DoT加密信道配置实战。">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="chronometer-masthead">
+    <div class="masthead-inner">
+      <a href="index.html" class="brand-dial" aria-label="隐云机场首页">
+        <svg viewBox="0 0 170 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="goldDial" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff" />
+              <stop offset="50%" stop-color="#fef3c7" />
+              <stop offset="100%" stop-color="#f59e0b" />
+            </linearGradient>
+          </defs>
+          <circle cx="20" cy="20" r="16" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2 1.5" />
+          <circle cx="20" cy="20" r="12" stroke="#d97706" stroke-width="1" />
+          <line x1="20" y1="4" x2="20" y2="36" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.5" />
+          <line x1="4" y1="20" x2="36" y2="20" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.5" />
+          <circle cx="20" cy="20" r="3" fill="#ef4444" />
+          <circle cx="20" cy="20" r="1" fill="#ffffff" />
+          <text x="44" y="27" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="900" fill="url(#goldDial)" letter-spacing="1.5">隐云机场</text>
+        </svg>
+      </a>
+      <ul class="dial-nav-links">
+        <li><a href="index.html#stability">稳定基准</a></li>
+        <li><a href="index.html#interconnect">算力互联</a></li>
+        <li><a href="index.html#pricing">量程方案</a></li>
+        <li><a href="index.html#logs">实测记录</a></li>
+        <li><a href="index.html#faq">精密问答</a></li>
+        <li><a href="precision-chronicles.html" style="color:#fbbf24;">度量纪实</a></li>
+      </ul>
+      <div class="header-actions">
+        <a href="https://ww012.twilightaff.com/#/?code=A56DH1Af" target="_blank" rel="nofollow" class="btn-calibrate-top">标定校准</a>
+        <button class="nav-toggle" aria-label="切换导航菜单" aria-expanded="false">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="article-header">
+    <div class="container">
+      <div class="article-meta-bar">
+        <span>工程归档：安全与加密</span>
+        <span>•</span>
+        <span>标定日期：2026-10-17</span>
+        <span>•</span>
+        <span>预计读时：约 5 分钟</span>
+      </div>
+      <h1 class="article-h1-title">警惕看不见的漏洞：DNS泄漏原理剖析与全链路防泄漏实操</h1>
+      <p class="article-lead-p">
+        在许多用户的潜意识里，只要代理软件的图标亮起、能够正常打开海外网站，自己的真实网络身份就已经被完美隐藏。然而，在资深网络安全分析师的显微镜下，一个看似隐蔽的致命漏洞——<strong>DNS 泄漏（DNS Leak）</strong>，却往往在毫秒之间将用户的真实地理位置与全部浏览足迹公之于众。
+      </p>
+    </div>
+  </div>
+
+  <main class="container">
+    <div class="article-body-wrapper">
+      <article class="article-rich-content">
+        <h2>即使开启了全盘代理，为什么你的真实地理位置依然暴露？</h2>
+        <p>
+          DNS（域名系统）是互联网最核心的“电话簿”。当你试图在浏览器中访问 <code>example.com</code> 时，计算机必须先向特定的 DNS 服务器发出查询请求，换取对应的目标 IP 地址，随后才能发起 TCP 连接。
+        </p>
+        <h3>操作系统本地DNS解析优先级的暗坑</h3>
+        <p>
+          问题恰恰发生在“向谁查询”的顺序上。许多用户在开启代理软件时，仅仅是在应用层重定向了 TCP 流量。然而 Windows 或 macOS 的底层网络协议栈依然优先使用本地宽带运营商（如本地电信/联通）下发的默认本地 DNS。
+        </p>
+        <p>
+          这意味着：虽然你最终访问目标网站的数据走的是境外专线通道，但在访问的前一微秒，你已经向本地运营商的 DNS 服务器明文大声广播了：“我要访问这个网站！”运营商日志清晰记录下了你的真实宽带账号、解析时间戳与目标域名，所有的加密伪装在这一刻形同虚设。
+        </p>
+
+        <h2>WebRTC与公共DNS探测如何绕过隧道泄露隐私</h2>
+        <p>
+          除了操作系统的默认解析逻辑外，现代浏览器广泛支持的 <strong>WebRTC（网页实时通信）</strong> 技术也是引发严重泄漏的重灾区。
+        </p>
+        <p>
+          恶意网站可以通过植入一段轻量级的 JavaScript 脚本，调用 WebRTC 的 STUN 协议接口，直接探测并获取用户的本地私网内网 IP 与真实物理公网 IP，完全绕过系统代理设置。在知名技术安全专刊 <a href="https://tizilab.net/" target="_blank">隐私安全梯子平台精选</a> 的权威指南中指出：超过 65% 的低阶代理工具在面对 WebRTC 探针时都会直接发生真实 IP 穿透。
+        </p>
+        <h3>使用在线测试工具全面诊断本地DNS泄漏状态</h3>
+        <p>
+          大家可以通过权威的专业检测平台（如 <code>dnsleaktest.com</code>）进行标准拓展测试（Extended Test）。如果在测试结果的解析服务器列表中出现了中国本地运营商（如 China Telecom 或 China Unicom）的服务器，即确凿证明当前网络环境已发生严重的 DNS 泄漏。
+        </p>
+
+        <h2>彻底切断DNS泄漏的工程级防护步骤</h2>
+        <p>
+          要从物理机制上彻底终结这一隐患，必须构筑以下三道防线：
+        </p>
+        <ul>
+          <li><strong>强制远程 DNS 解析：</strong>在代理客户端中关闭本地 DNS 解析，将所有域名的查询工作强制交由远端境外专线服务器代为执行；</li>
+          <li><strong>采用 DoH / DoT 加密传输：</strong>配置基于 TLS 加密的 DNS 上游（如 Cloudflare 1.1.1.1 或 Google 8.8.8.8），杜绝明文 UDP 53 端口查询；</li>
+          <li><strong>在浏览器中禁用 WebRTC 真实穿透：</strong>安装防 WebRTC 泄露扩展，或在浏览器底层配置中关闭非代理 UDP 绑定。</li>
+        </ul>
+        <h3>强制远程DNS解析与DoH/DoT加密信道配置</h3>
+        <p>
+          在现代客户端中启用 Fake-IP 模式，不仅能彻底堵死泄漏通道，还能省去本地查询的往返时延，显著提升复杂网页的初次渲染速度。
+        </p>
+
+        <h2>构筑坚不可摧的端到端数字保密通道</h2>
+        <p>
+          真正的安全从来不依赖侥幸，而是源于对底层网络协议的深刻洞察与严密防范。堵住 DNS 泄漏这扇隐形后门，配合纯内存无盘运行的高性能专线，方能确保您的每一次跨境探索都真正实现风过无痕、磐石般稳固。
+        </p>
+      </article>
+
+      <div class="post-back-bar">
+        <a href="precision-chronicles.html" style="text-decoration:none;font-weight:700;">&larr; 返回度量纪实列表</a>
+        <a href="cross-border-ecommerce-store-safety.html" style="text-decoration:none;font-weight:700;">标定下一篇：跨境电商多店铺防关联网络搭建 &rarr;</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="dial-base">
+    <div class="container">
+      <ul class="dial-base-nav">
+        <li><a href="sitemap.html">网站地图</a></li>
+        <li><a href="about.html">关于我们</a></li>
+        <li><a href="terms.html">服务条款</a></li>
+        <li><a href="privacy.html">隐私政策</a></li>
+      </ul>
+    </div>
+  </footer>
+  <script src="nav.js" defer></script>
+</body>
+</html>
