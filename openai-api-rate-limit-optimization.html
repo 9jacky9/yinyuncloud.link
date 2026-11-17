@@ -1,100 +1,109 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API 密钥保管：不要写进代码与聊天记录 - 隐云度量纪实</title>
-  <meta name="description" content="API 密钥一旦泄露可能造成损失。介绍密钥的正确保管方式：环境变量、密钥管理、权限最小化、轮换与泄露后的处理。">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OpenAI API返回429怎么办：区分额度、请求速率与重复重试</title>
+<meta content="OpenAI API返回429怎么办：区分额度、请求速率与重复重试，包含操作次序、结果判读与适用条件，帮助读者把实际任务和连接问题分开验证。" name="description"/>
+<link href="style.css" rel="stylesheet"/>
 </head>
 <body>
-  <header class="chronometer-masthead">
-    <div class="masthead-inner">
-      <a href="index.html" class="brand-dial" aria-label="隐云机场首页">
-        <svg viewBox="0 0 170 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="goldDial" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#ffffff" />
-              <stop offset="50%" stop-color="#fef3c7" />
-              <stop offset="100%" stop-color="#f59e0b" />
-            </linearGradient>
-          </defs>
-          <circle cx="20" cy="20" r="16" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2 1.5" />
-          <circle cx="20" cy="20" r="12" stroke="#d97706" stroke-width="1" />
-          <line x1="20" y1="4" x2="20" y2="36" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.5" />
-          <line x1="4" y1="20" x2="36" y2="20" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.5" />
-          <circle cx="20" cy="20" r="3" fill="#ef4444" />
-          <circle cx="20" cy="20" r="1" fill="#ffffff" />
-          <text x="44" y="27" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="900" fill="url(#goldDial)" letter-spacing="1.5">隐云机场</text>
-        </svg>
-      </a>
-      <ul class="dial-nav-links">
-        <li><a href="index.html#stability">稳定基准</a></li>
-        <li><a href="index.html#interconnect">算力互联</a></li>
-        <li><a href="index.html#pricing">量程方案</a></li>
-        <li><a href="index.html#logs">实测记录</a></li>
-        <li><a href="index.html#faq">精密问答</a></li>
-        <li><a href="precision-chronicles.html" style="color:#fbbf24;">度量纪实</a></li>
-      </ul>
-      <div class="header-actions">
-        <a href="https://ww012.twilightaff.com/#/?code=A56DH1Af" target="_blank" rel="nofollow" class="btn-calibrate-top">标定校准</a>
-        <button class="nav-toggle" aria-label="切换导航菜单" aria-expanded="false">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <div class="article-header">
-    <div class="container">
-      <div class="article-meta-bar">
- <span>工程归档：开发安全</span>
- <span>•</span>
- <span>标定日期：2026-11-11</span>
- <span>•</span>
- <span>预计读时：约 5 分钟</span>
- </div>
-      <h1 class="article-h1-title">API 密钥保管：不要写进代码与聊天记录</h1>
-      <p class="article-lead-p">
+<header class="chronometer-masthead">
+<div class="masthead-inner">
+<a aria-label="隐云机场首页" class="brand-dial" href="index.html">
+<svg fill="none" viewbox="0 0 170 40" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="goldDial" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#ffffff"></stop>
+<stop offset="50%" stop-color="#fef3c7"></stop>
+<stop offset="100%" stop-color="#f59e0b"></stop>
+</lineargradient>
+</defs>
+<circle cx="20" cy="20" r="16" stroke="#f59e0b" stroke-dasharray="2 1.5" stroke-width="1.5"></circle>
+<circle cx="20" cy="20" r="12" stroke="#d97706" stroke-width="1"></circle>
+<line stroke="#f59e0b" stroke-opacity="0.5" stroke-width="1" x1="20" x2="20" y1="4" y2="36"></line>
+<line stroke="#f59e0b" stroke-opacity="0.5" stroke-width="1" x1="4" x2="36" y1="20" y2="20"></line>
+<circle cx="20" cy="20" fill="#ef4444" r="3"></circle>
+<circle cx="20" cy="20" fill="#ffffff" r="1"></circle>
+<text fill="url(#goldDial)" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="900" letter-spacing="1.5" x="44" y="27">隐云机场</text>
+</svg>
+</a>
+<ul class="dial-nav-links">
+<li><a href="index.html#stability">稳定基准</a></li>
+<li><a href="index.html#interconnect">算力互联</a></li>
+<li><a href="index.html#pricing">量程方案</a></li>
+<li><a href="index.html#logs">实测记录</a></li>
+<li><a href="index.html#faq">精密问答</a></li>
+<li><a href="precision-chronicles.html" style="color:#fbbf24;">度量纪实</a></li>
+</ul>
+<div class="header-actions">
+<a class="btn-calibrate-top" href="https://ww012.twilightaff.com/#/?code=A56DH1Af" rel="nofollow" target="_blank">标定校准</a>
+<button aria-expanded="false" aria-label="切换导航菜单" class="nav-toggle">
+<span class="bar"></span>
+<span class="bar"></span>
+<span class="bar"></span>
+</button>
+</div>
+</div>
+</header>
+<div class="article-header">
+<div class="container">
+<div class="article-meta-bar">
+<span>工程归档：开发安全</span>
+<span>•</span>
+<span>标定日期：2026-11-11</span>
+<span>•</span>
+<span>预计读时：约 5 分钟</span>
+</div>
+<h1 class="article-h1-title">OpenAI API返回429怎么办：区分额度、请求速率与重复重试</h1>
+<p class="article-lead-p">
  一把密钥，可能连着一笔不小的账单。保管密钥，是开发者的基本功。
  </p>
-    </div>
-  </div>
-
-  <main class="container">
-    <div class="article-body-wrapper">
-      <article class="article-rich-content">
-<h2>常见的错误</h2>
-<ul><li>把密钥直接写进代码并提交到仓库。</li><li>在聊天软件或工单里发送完整的密钥。</li><li>多个项目共用同一个密钥。</li></ul>
-<h2>正确的做法</h2>
-<p>使用环境变量或专门的密钥管理服务，在配置文件里只引用变量名。把含密钥的文件加入忽略列表。</p>
-<h2>权限最小化</h2>
-<p>为每个项目生成独立的密钥，只授予需要的权限，并设置使用额度与告警。</p>
-<h2>定期轮换</h2>
-<p>设定轮换周期，人员变动时立即更换相关密钥。</p>
-<h2>泄露后怎么办</h2>
-<p>第一时间到服务商后台吊销该密钥，生成新密钥，检查近期的调用记录与账单，并清理代码仓库的历史记录。</p>
- </article>
-
-      <div class="post-back-bar">
-        <a href="precision-chronicles.html" style="text-decoration:none;font-weight:700;">&larr; 返回度量纪实列表</a>
-        <a href="singbox-advanced-route-protocols.html" style="text-decoration:none;font-weight:700;">标定下一篇：配置文件 YAML 与 JSON：新手修改配置时的注意事项 &rarr;</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="dial-base">
-    <div class="container">
-      <ul class="dial-base-nav">
-        <li><a href="sitemap.html">网站地图</a></li>
-        <li><a href="about.html">关于我们</a></li>
-        <li><a href="terms.html">服务条款</a></li>
-        <li><a href="privacy.html">隐私政策</a></li>
-      </ul>
-    </div>
-  </footer>
-  <script src="nav.js" defer></script>
+</div>
+</div>
+<main class="container">
+<div class="article-body-wrapper">
+<article class="article-rich-content"><div data-swc-article-body="2026-11-16"><h2>先读取错误内容再决定是否重试</h2>
+<p>接口返回四二九时，不应立即认定网络被限速。它可能涉及请求频率、令牌速率或账户相关限制，具体恢复方式需要结合错误内容和当前平台说明。先保存脱敏错误类型、请求编号与时间，再检查项目和模型的限制。更换网络不能自动增加调用权限，也不能让已经用尽的额度恢复。</p>
+<h2>第一步确认限制属于哪个维度</h2>
+<p>查看账户或项目当前可见的速率信息，区分每段时间的请求数量与令牌数量等指标。短请求很多可能先碰到请求限制，少量长输入也可能消耗较多令牌预算。不要只按一分钟发了几次来推断全部情况。模型、项目与组织条件可能不同，实际值以当前控制台和响应信息为准，不照抄别人的固定数字。</p>
+<h2>第二步读取响应中的剩余信息</h2>
+<p>OpenAI官方文档说明，响应头可提供请求、令牌剩余量和重置等相关信息。记录实际返回的字段，不假设所有环境都显示同一组数据。SDK可能包装响应对象，按所用版本的方法读取。只记录必要的限制信息与请求标识，不把认证头、密钥或完整客户提示词写入共享日志。</p>
+<h2>第三步确认SDK有没有自动重试</h2>
+<p>官方SDK对某些错误可能已执行重试，应用外层再加循环会放大总次数。检查安装版本的重试配置，决定由哪一层负责，并把总尝试次数限制清楚。不要只统计业务函数被调用一次，就以为上游只收到一次请求。日志应记录实际尝试与最终结果，才能解释为什么一个任务耗时或用量高于预期。</p>
+<h2>第四步尊重等待提示并加入退避</h2>
+<p>如果响应提供有效的Retry-After，按文档将其作为至少等待的依据，再配合适当随机延迟避免多个工作进程同时重发。没有明确提示时，可使用有上限的指数退避。失败请求也可能计入相应速率统计，因此持续立即重试并不能突破限制，反而可能让恢复更慢。达到上限后应清楚返回失败状态。</p>
+<h2>第五步让并发数量可控制</h2>
+<p>为任务队列设定合理的同时执行数量，而不是一次启动全部工作。观察当前限制、平均请求规模与错误率，再逐步调整。一个进程里的限制不能自动约束多个服务器实例，团队需要共享预算或集中调度。否则每台机器看起来都很保守，总量却仍超出允许范围，单独降低某台电脑速度未必解决问题。</p>
+<h2>用小任务拆分长工作但避免无意义切碎</h2>
+<p>对可独立处理的资料，可以划分适当批次，让失败只影响对应部分。每批记录输入版本、任务编号和完成状态，成功部分不重复提交。分得过碎会增加请求开销，也可能丢失必要上下文，因此需要按任务结构选择。不要为了减少单次长度而把每句话都拆成请求，再用更高请求量制造新的瓶颈。</p>
+<h2>输出上限与实际业务需要一致</h2>
+<p>按接口支持的参数设置合理输出限制，避免为简短分类预留远超需要的生成规模。输入也应去除确实无关的重复内容，但不能删掉完成任务所需信息。调整后用固定样本核对结果质量，不能只因为令牌变少就认定优化成功。成本、速度和正确性需要同时满足，尤其是输出用于后续自动流程时。</p>
+<h2>流式中断不能直接当作可安全重放</h2>
+<p>已经收到部分输出后发生错误，需要区分未完成内容与完整结果，不能无条件重发并静默拼接。涉及工具调用或外部动作时，还要核对是否已经执行。请求编号帮助关联记录，但不是所有接口都具备相同的幂等保证。恢复策略应按所用API能力设计，不假设超时就代表上游没有开始处理。</p>
+<h2>网络只在证据指向连接时再调查</h2>
+<p>若明确是解析、建立连接或持续传输异常，再比较实际运行环境。开发机浏览器正常不代表云端任务同样正常。整理<a href="https://dajichang.mom/">开发者机场套餐比较</a>时，关注设备、运行位置与服务支持条件；套餐选择不会改变API账户的额度、模型权限和速率规则，也不应被包装成绕过限制的方法。</p>
+<h2>建立能解释失败的队列面板</h2>
+<p>至少区分等待额度、正在执行、等待重试、成功与最终失败，显示最后错误和下次可尝试时间。用户取消任务后停止不必要的后续重试，避免后台继续消耗资源。对于重复触发的同一业务任务，先查询已有状态，再决定是否创建新任务，而不是每次点击都开启一条新的生成链。</p>
+<h2>用真实但受控的批次验证修复</h2>
+<p>选择一小批无敏感资料，核对总尝试次数、成功率、等待时间和重复结果。确认限流时程序能够退避，额度不足时能够提示处理，连接故障时不会伪装成功。有效优化应让系统在限制内平稳工作，而不是短暂提高吞吐后反复失败。保存参数与版本，后续配额变化时再重新评估。</p></div></article>
+<div class="post-back-bar">
+<a href="precision-chronicles.html" style="text-decoration:none;font-weight:700;">← 返回度量纪实列表</a>
+<a href="singbox-advanced-route-protocols.html" style="text-decoration:none;font-weight:700;">标定下一篇：配置文件 YAML 与 JSON：新手修改配置时的注意事项 →</a>
+</div>
+</div>
+</main>
+<footer class="dial-base">
+<div class="container">
+<ul class="dial-base-nav">
+<li><a href="sitemap.html">网站地图</a></li>
+<li><a href="about.html">关于我们</a></li>
+<li><a href="terms.html">服务条款</a></li>
+<li><a href="privacy.html">隐私政策</a></li>
+</ul>
+</div>
+</footer>
+<script defer="" src="nav.js"></script>
 </body>
 </html>

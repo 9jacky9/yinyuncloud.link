@@ -1,100 +1,105 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>配置文件 YAML 与 JSON：新手修改配置时的注意事项 - 隐云度量纪实</title>
-  <meta name="description" content="修改客户端配置文件时常因格式错误失败。介绍 YAML 与 JSON 的区别、缩进与引号规则、常见错误和检查工具。">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>sing-box路由配置升级怎么检查：版本、规则动作与最小回归验证</title>
+<meta content="sing-box路由配置升级怎么检查：版本、规则动作与最小回归验证，包含操作次序、结果判读与适用条件，帮助读者把实际任务和连接问题分开验证。" name="description"/>
+<link href="style.css" rel="stylesheet"/>
 </head>
 <body>
-  <header class="chronometer-masthead">
-    <div class="masthead-inner">
-      <a href="index.html" class="brand-dial" aria-label="隐云机场首页">
-        <svg viewBox="0 0 170 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="goldDial" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#ffffff" />
-              <stop offset="50%" stop-color="#fef3c7" />
-              <stop offset="100%" stop-color="#f59e0b" />
-            </linearGradient>
-          </defs>
-          <circle cx="20" cy="20" r="16" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2 1.5" />
-          <circle cx="20" cy="20" r="12" stroke="#d97706" stroke-width="1" />
-          <line x1="20" y1="4" x2="20" y2="36" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.5" />
-          <line x1="4" y1="20" x2="36" y2="20" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.5" />
-          <circle cx="20" cy="20" r="3" fill="#ef4444" />
-          <circle cx="20" cy="20" r="1" fill="#ffffff" />
-          <text x="44" y="27" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="900" fill="url(#goldDial)" letter-spacing="1.5">隐云机场</text>
-        </svg>
-      </a>
-      <ul class="dial-nav-links">
-        <li><a href="index.html#stability">稳定基准</a></li>
-        <li><a href="index.html#interconnect">算力互联</a></li>
-        <li><a href="index.html#pricing">量程方案</a></li>
-        <li><a href="index.html#logs">实测记录</a></li>
-        <li><a href="index.html#faq">精密问答</a></li>
-        <li><a href="precision-chronicles.html" style="color:#fbbf24;">度量纪实</a></li>
-      </ul>
-      <div class="header-actions">
-        <a href="https://ww012.twilightaff.com/#/?code=A56DH1Af" target="_blank" rel="nofollow" class="btn-calibrate-top">标定校准</a>
-        <button class="nav-toggle" aria-label="切换导航菜单" aria-expanded="false">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <div class="article-header">
-    <div class="container">
-      <div class="article-meta-bar">
- <span>工程归档：配置技巧</span>
- <span>•</span>
- <span>标定日期：2026-11-10</span>
- <span>•</span>
- <span>预计读时：约 5 分钟</span>
- </div>
-      <h1 class="article-h1-title">配置文件 YAML 与 JSON：新手修改配置时的注意事项</h1>
-      <p class="article-lead-p">
+<header class="chronometer-masthead">
+<div class="masthead-inner">
+<a aria-label="隐云机场首页" class="brand-dial" href="index.html">
+<svg fill="none" viewbox="0 0 170 40" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="goldDial" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#ffffff"></stop>
+<stop offset="50%" stop-color="#fef3c7"></stop>
+<stop offset="100%" stop-color="#f59e0b"></stop>
+</lineargradient>
+</defs>
+<circle cx="20" cy="20" r="16" stroke="#f59e0b" stroke-dasharray="2 1.5" stroke-width="1.5"></circle>
+<circle cx="20" cy="20" r="12" stroke="#d97706" stroke-width="1"></circle>
+<line stroke="#f59e0b" stroke-opacity="0.5" stroke-width="1" x1="20" x2="20" y1="4" y2="36"></line>
+<line stroke="#f59e0b" stroke-opacity="0.5" stroke-width="1" x1="4" x2="36" y1="20" y2="20"></line>
+<circle cx="20" cy="20" fill="#ef4444" r="3"></circle>
+<circle cx="20" cy="20" fill="#ffffff" r="1"></circle>
+<text fill="url(#goldDial)" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="900" letter-spacing="1.5" x="44" y="27">隐云机场</text>
+</svg>
+</a>
+<ul class="dial-nav-links">
+<li><a href="index.html#stability">稳定基准</a></li>
+<li><a href="index.html#interconnect">算力互联</a></li>
+<li><a href="index.html#pricing">量程方案</a></li>
+<li><a href="index.html#logs">实测记录</a></li>
+<li><a href="index.html#faq">精密问答</a></li>
+<li><a href="precision-chronicles.html" style="color:#fbbf24;">度量纪实</a></li>
+</ul>
+<div class="header-actions">
+<a class="btn-calibrate-top" href="https://ww012.twilightaff.com/#/?code=A56DH1Af" rel="nofollow" target="_blank">标定校准</a>
+<button aria-expanded="false" aria-label="切换导航菜单" class="nav-toggle">
+<span class="bar"></span>
+<span class="bar"></span>
+<span class="bar"></span>
+</button>
+</div>
+</div>
+</header>
+<div class="article-header">
+<div class="container">
+<div class="article-meta-bar">
+<span>工程归档：配置技巧</span>
+<span>•</span>
+<span>标定日期：2026-11-10</span>
+<span>•</span>
+<span>预计读时：约 5 分钟</span>
+</div>
+<h1 class="article-h1-title">sing-box路由配置升级怎么检查：版本、规则动作与最小回归验证</h1>
+<p class="article-lead-p">
  配置文件不难，难在细节：一个空格、一个逗号，就可能让整份配置失效。
  </p>
-    </div>
-  </div>
-
-  <main class="container">
-    <div class="article-body-wrapper">
-      <article class="article-rich-content">
-<h2>两种格式的特点</h2>
-<p>YAML 用缩进表示层级，可读性好；JSON 使用大括号与引号，结构严格。不同客户端使用不同的格式。</p>
-<h2>YAML 的注意事项</h2>
-<ul><li>只用空格缩进，不要用制表符。</li><li>同一层级的缩进要一致。</li><li>冒号后需要空格。</li></ul>
-<h2>JSON 的注意事项</h2>
-<ul><li>字符串使用英文双引号。</li><li>最后一项后面不要加逗号。</li><li>注意括号成对。</li></ul>
-<h2>修改的流程</h2>
-<p>先备份原文件，使用带语法高亮的编辑器，每次只改一处，改完保存并重新加载。</p>
-<h2>出错时</h2>
-<p>使用校验工具检查语法，查看客户端的错误提示，必要时回退到备份版本。</p>
- </article>
-
-      <div class="post-back-bar">
-        <a href="precision-chronicles.html" style="text-decoration:none;font-weight:700;">&larr; 返回度量纪实列表</a>
-        <a href="dns-leak-prevention-mechanisms.html" style="text-decoration:none;font-weight:700;">标定下一篇：运营商限速与 QoS：怎样判断自己是否被限速 &rarr;</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="dial-base">
-    <div class="container">
-      <ul class="dial-base-nav">
-        <li><a href="sitemap.html">网站地图</a></li>
-        <li><a href="about.html">关于我们</a></li>
-        <li><a href="terms.html">服务条款</a></li>
-        <li><a href="privacy.html">隐私政策</a></li>
-      </ul>
-    </div>
-  </footer>
-  <script src="nav.js" defer></script>
+</div>
+</div>
+<main class="container">
+<div class="article-body-wrapper">
+<article class="article-rich-content"><div data-swc-article-body="2026-11-16"><h2>配置能解析不代表业务全部正常</h2>
+<p>升级sing-box后，有时程序直接提示字段错误，有时能够启动却走了不同路径。两种情况要分别处理：前者涉及配置结构与版本兼容，后者还需检查规则、解析和出站。不要把网上某个完整配置覆盖到现有环境，因为它可能针对不同平台、不同核心版本和不同接入目标。先明确自己当前运行的版本与有效文件。</p>
+<h2>第一步保留当前可工作的配置</h2>
+<p>复制一份到受控位置，记录客户端、核心版本、操作系统与配置来源。包含凭据的文件不能公开上传。若由图形客户端管理，确认它生成或加载的是哪份配置，不把界面导出的片段误认为全部有效内容。准备好返回原版本或原设置的正常方法，再开始测试，避免重要任务进行到一半才发现无法恢复。</p>
+<h2>第二步查阅对应版本的迁移说明</h2>
+<p>官方配置文档会标注字段新增、弃用和移除的版本，先找与自己升级跨度有关的变化。旧教程中仍出现某个字段，不代表新版本继续接受它。特别是路由、规则集和DNS相关结构，应按当前迁移说明逐项核对。不要为了让解析通过而直接删掉全部未知项，那可能同时删除原本需要的行为。</p>
+<h2>第三步运行配置检查命令</h2>
+<p>在自己管理的测试环境，可按官方命令行说明使用sing-box check -c config.json检查目标文件，路径应替换为真实配置位置。先看检查返回的具体错误和字段，再作最小修改。这个命令的通过主要说明配置能够被当前程序接受，不能证明目标节点可达、订阅有效或所有应用都按预期分流。</p>
+<p>如果错误指向拼写、引号或类型，先修这一处再重新检查。JSON里的字符串、布尔值和列表不能随意互换；某些配置格式处理方式也由实际工具决定。不要同时调整节点、DNS和规则顺序后再猜哪一项修复了问题。每次变更保留原因，遇到新错误时能够追溯，而不是越改越偏离原始意图。</p>
+<h2>第四步理解匹配条件与动作</h2>
+<p>规则的条件描述哪些连接被选中，动作描述命中后怎样处理，两者都需要符合版本结构。多个字段可能按文档规定组合，并非全部简单地互相替代。官方说明对域名、后缀、网络类型等条件有明确语义，使用前应确定要匹配的是目标域名、地址、端口还是进程，不用一个宽泛关键词包住所有业务。</p>
+<p>例如只需要调整一个公开测试域名，可以先使用明确的域名条件验证，再逐步扩大范围。确认动作引用的出站标记存在，且对应连接实际可用。标记只是配置内部名称，名字叫高速或直连并不能证明真实路径。规则命中后仍需查看日志与业务结果，不能以编辑器文字看起来正确作为终点。</p>
+<h2>第五步把DNS与路由分别验收</h2>
+<p>域名怎样解析和连接怎样出站是相关但不同的步骤。若解析策略变化，应用可能取得不同地址，进而影响后续规则。记录一个普通网页、一个需要特定路径的服务和一个局域网名称，逐项观察。不要为了修复外部访问而破坏内部解析，也不要用一次公开检测结果推断所有程序采用相同DNS。</p>
+<h2>第六步查看新连接的实际日志</h2>
+<p>按当前日志级别记录必要信息，触发一次测试请求，确认匹配与出站符合预期。已有长连接可能继续使用旧状态，测试时应明确创建新会话。日志中若包含地址或凭据，分享前脱敏。无法解释的错误先缩小到一个目标，不需要开启所有详细日志并把完整运行资料发布到公共渠道。</p>
+<h2>订阅兼容要与客户端能力一起看</h2>
+<p>选择<a href="https://dajichang.mom/">sing-box兼容机场选择</a>中的候选时，核对交付格式、核心版本和设备支持，不因宣传出现sing-box名称就默认所有新功能可用。订阅转换也可能改变字段，应检查实际生成结果。服务提供的配置与自己的覆盖规则需要有明确合并方式，避免更新后把手工调整悄悄替换。</p>
+<h2>用小型回归清单确认升级完成</h2>
+<p>依次检查程序启动、目标网页、桌面应用、局域网任务和正常断开重连。每项保留结果与版本，失败时先回到最后可用状态，再继续调查。若只有某项新特性无法验证，不必为追求最新而影响整套工作。升级成功的含义是需要的任务持续可用，而不是仅看到程序启动且没有立即报错。</p><h2>给规则集更新留出观察窗口</h2><p>外部规则集更新可能改变匹配结果，即使主配置文件没有变化也值得核对。记录规则来源与更新时间，先用原先的测试目标观察，再确认新条目是否符合用途。不要把未知来源的规则当成无风险数据导入；它实际参与连接决策。出现问题时先保留证据和有效版本，再按工具支持的方式处理更新，不用扩大所有流量范围来掩盖个别匹配错误。</p></div></article>
+<div class="post-back-bar">
+<a href="precision-chronicles.html" style="text-decoration:none;font-weight:700;">← 返回度量纪实列表</a>
+<a href="dns-leak-prevention-mechanisms.html" style="text-decoration:none;font-weight:700;">标定下一篇：运营商限速与 QoS：怎样判断自己是否被限速 →</a>
+</div>
+</div>
+</main>
+<footer class="dial-base">
+<div class="container">
+<ul class="dial-base-nav">
+<li><a href="sitemap.html">网站地图</a></li>
+<li><a href="about.html">关于我们</a></li>
+<li><a href="terms.html">服务条款</a></li>
+<li><a href="privacy.html">隐私政策</a></li>
+</ul>
+</div>
+</footer>
+<script defer="" src="nav.js"></script>
 </body>
 </html>

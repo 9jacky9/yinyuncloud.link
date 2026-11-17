@@ -1,196 +1,187 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>度量纪实：宽带、迁移与配置实用指南 - 隐云机场</title>
-  <meta name="description" content="隐云机场度量纪实：宽带上下行差异、换手机迁移清单、运营商限速判断、使用心得、API 密钥保管与配置文件格式。">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>度量纪实：宽带、迁移与配置实用指南 - 隐云机场</title>
+<meta content="隐云机场度量纪实：宽带上下行差异、换手机迁移清单、运营商限速判断、使用心得、API 密钥保管与配置文件格式。" name="description"/>
+<link href="style.css" rel="stylesheet"/>
 </head>
 <body>
-
-  <!-- 顶部经纬表头导航 -->
-  <header class="chronometer-masthead">
-    <div class="masthead-inner">
-      <a href="index.html" class="brand-dial" aria-label="隐云机场首页">
-        <svg viewBox="0 0 170 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="goldDial" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#ffffff" />
-              <stop offset="50%" stop-color="#fef3c7" />
-              <stop offset="100%" stop-color="#f59e0b" />
-            </linearGradient>
-          </defs>
-          <circle cx="20" cy="20" r="16" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2 1.5" />
-          <circle cx="20" cy="20" r="12" stroke="#d97706" stroke-width="1" />
-          <line x1="20" y1="4" x2="20" y2="36" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.5" />
-          <line x1="4" y1="20" x2="36" y2="20" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.5" />
-          <circle cx="20" cy="20" r="3" fill="#ef4444" />
-          <circle cx="20" cy="20" r="1" fill="#ffffff" />
-          <text x="44" y="27" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="900" fill="url(#goldDial)" letter-spacing="1.5">隐云机场</text>
-        </svg>
-      </a>
-      <ul class="dial-nav-links">
-        <li><a href="index.html#stability">稳定基准</a></li>
-        <li><a href="index.html#interconnect">算力互联</a></li>
-        <li><a href="index.html#pricing">量程方案</a></li>
-        <li><a href="index.html#logs">实测记录</a></li>
-        <li><a href="index.html#faq">精密问答</a></li>
-        <li><a href="precision-chronicles.html" style="color:#fbbf24;">度量纪实</a></li>
-      </ul>
-      <div class="header-actions">
-        <a href="https://ww012.twilightaff.com/#/?code=A56DH1Af" target="_blank" rel="nofollow" class="btn-calibrate-top">标定校准</a>
-        <button class="nav-toggle" aria-label="切换导航菜单" aria-expanded="false">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <div class="news-hub-hero">
-    <div class="container">
-      <h1 class="news-hub-title">度量纪实</h1>
-      <p class="news-hub-desc">用清晰的方法记录日常使用中的细节：宽带、迁移、密钥与配置。</p>
-    </div>
-  </div>
-
-  <main class="container">
-    <div class="articles-grid">
-      <!-- 文章 1 -->
-      <article class="article-card">
-        <div>
-          <div class="card-badge-row">
-            <span class="article-cat-tag">宽带常识</span>
-            <span class="article-read-time">约 5 分钟</span>
-          </div>
-          <h2 class="article-card-title">
-            <a href="bgp-iepl-technical-comparison.html">家庭宽带的上行与下行：为什么上传总是比下载慢</a>
-          </h2>
-          <p class="article-card-excerpt">
+<!-- 顶部经纬表头导航 -->
+<header class="chronometer-masthead">
+<div class="masthead-inner">
+<a aria-label="隐云机场首页" class="brand-dial" href="index.html">
+<svg fill="none" viewbox="0 0 170 40" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="goldDial" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#ffffff"></stop>
+<stop offset="50%" stop-color="#fef3c7"></stop>
+<stop offset="100%" stop-color="#f59e0b"></stop>
+</lineargradient>
+</defs>
+<circle cx="20" cy="20" r="16" stroke="#f59e0b" stroke-dasharray="2 1.5" stroke-width="1.5"></circle>
+<circle cx="20" cy="20" r="12" stroke="#d97706" stroke-width="1"></circle>
+<line stroke="#f59e0b" stroke-opacity="0.5" stroke-width="1" x1="20" x2="20" y1="4" y2="36"></line>
+<line stroke="#f59e0b" stroke-opacity="0.5" stroke-width="1" x1="4" x2="36" y1="20" y2="20"></line>
+<circle cx="20" cy="20" fill="#ef4444" r="3"></circle>
+<circle cx="20" cy="20" fill="#ffffff" r="1"></circle>
+<text fill="url(#goldDial)" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="900" letter-spacing="1.5" x="44" y="27">隐云机场</text>
+</svg>
+</a>
+<ul class="dial-nav-links">
+<li><a href="index.html#stability">稳定基准</a></li>
+<li><a href="index.html#interconnect">算力互联</a></li>
+<li><a href="index.html#pricing">量程方案</a></li>
+<li><a href="index.html#logs">实测记录</a></li>
+<li><a href="index.html#faq">精密问答</a></li>
+<li><a href="precision-chronicles.html" style="color:#fbbf24;">度量纪实</a></li>
+</ul>
+<div class="header-actions">
+<a class="btn-calibrate-top" href="https://ww012.twilightaff.com/#/?code=A56DH1Af" rel="nofollow" target="_blank">标定校准</a>
+<button aria-expanded="false" aria-label="切换导航菜单" class="nav-toggle">
+<span class="bar"></span>
+<span class="bar"></span>
+<span class="bar"></span>
+</button>
+</div>
+</div>
+</header>
+<div class="news-hub-hero">
+<div class="container">
+<h1 class="news-hub-title">度量纪实</h1>
+<p class="news-hub-desc">用清晰的方法记录日常使用中的细节：宽带、迁移、密钥与配置。</p>
+</div>
+</div>
+<main class="container">
+<div class="articles-grid">
+<!-- 文章 1 -->
+<article class="article-card">
+<div>
+<div class="card-badge-row">
+<span class="article-cat-tag">宽带常识</span>
+<span class="article-read-time">约 5 分钟</span>
+</div>
+<h2 class="article-card-title">
+<a href="bgp-iepl-technical-comparison.html">BGP多线与IEPL专线怎么比较：先拆服务范围，再核对实际任务</a>
+</h2>
+<p class="article-card-excerpt">
  多数家庭宽带上行远低于下行，这是设计使然，上传需求大的用户要特别关注上行带宽。
  </p>
-        </div>
-        <div class="article-card-footer">
-          <span class="article-author-info">基础设施工程组 · 2026-10-20</span>
-          <a href="bgp-iepl-technical-comparison.html" class="article-read-more">查阅标定研报 &rarr;</a>
-        </div>
-      </article>
-
-      <!-- 文章 2 (品牌核心文章) -->
-      <article class="article-card">
-        <div>
-          <div class="card-badge-row">
-            <span class="article-cat-tag">使用心得</span>
-            <span class="article-read-time">约 5 分钟</span>
-          </div>
-          <h2 class="article-card-title">
-            <a href="enterprise-infrastructure-yinyun.html">隐云使用心得：一个月后保留下来的五个习惯</a>
-          </h2>
-          <p class="article-card-excerpt">
+</div>
+<div class="article-card-footer">
+<span class="article-author-info">基础设施工程组 · 2026-10-20</span>
+<a class="article-read-more" href="bgp-iepl-technical-comparison.html">查阅标定研报 →</a>
+</div>
+</article>
+<!-- 文章 2 (品牌核心文章) -->
+<article class="article-card">
+<div>
+<div class="card-badge-row">
+<span class="article-cat-tag">使用心得</span>
+<span class="article-read-time">约 5 分钟</span>
+</div>
+<h2 class="article-card-title">
+<a href="enterprise-infrastructure-yinyun.html">隐云机场用于翻译团队协作：术语表、双语文件与审校交付验收</a>
+</h2>
+<p class="article-card-excerpt">
  固定主力、定期更新、记录问题、分场景使用与备份配置，是长期顺手的五个习惯。
  </p>
-        </div>
-        <div class="article-card-footer">
-          <span class="article-author-info">网络度量实验室 · 2026-10-20</span>
-          <a href="enterprise-infrastructure-yinyun.html" class="article-read-more">查阅标定研报 &rarr;</a>
-        </div>
-      </article>
-
-      <!-- 文章 3 -->
-      <article class="article-card">
-        <div>
-          <div class="card-badge-row">
-            <span class="article-cat-tag">开发安全</span>
-            <span class="article-read-time">约 5 分钟</span>
-          </div>
-          <h2 class="article-card-title">
-            <a href="openai-api-rate-limit-optimization.html">API 密钥保管：不要写进代码与聊天记录</a>
-          </h2>
-          <p class="article-card-excerpt">
+</div>
+<div class="article-card-footer">
+<span class="article-author-info">网络度量实验室 · 2026-10-20</span>
+<a class="article-read-more" href="enterprise-infrastructure-yinyun.html">查阅标定研报 →</a>
+</div>
+</article>
+<!-- 文章 3 -->
+<article class="article-card">
+<div>
+<div class="card-badge-row">
+<span class="article-cat-tag">开发安全</span>
+<span class="article-read-time">约 5 分钟</span>
+</div>
+<h2 class="article-card-title">
+<a href="openai-api-rate-limit-optimization.html">OpenAI API返回429怎么办：区分额度、请求速率与重复重试</a>
+</h2>
+<p class="article-card-excerpt">
  密钥不进代码、不进聊天、权限最小化并定期轮换，泄露后立刻吊销。
  </p>
-        </div>
-        <div class="article-card-footer">
-          <span class="article-author-info">AI平台架构部 · 2026-10-19</span>
-          <a href="openai-api-rate-limit-optimization.html" class="article-read-more">查阅标定研报 &rarr;</a>
-        </div>
-      </article>
-
-      <!-- 文章 4 -->
-      <article class="article-card">
-        <div>
-          <div class="card-badge-row">
-            <span class="article-cat-tag">配置技巧</span>
-            <span class="article-read-time">约 5 分钟</span>
-          </div>
-          <h2 class="article-card-title">
-            <a href="singbox-advanced-route-protocols.html">配置文件 YAML 与 JSON：新手修改配置时的注意事项</a>
-          </h2>
-          <p class="article-card-excerpt">
+</div>
+<div class="article-card-footer">
+<span class="article-author-info">AI平台架构部 · 2026-10-19</span>
+<a class="article-read-more" href="openai-api-rate-limit-optimization.html">查阅标定研报 →</a>
+</div>
+</article>
+<!-- 文章 4 -->
+<article class="article-card">
+<div>
+<div class="card-badge-row">
+<span class="article-cat-tag">配置技巧</span>
+<span class="article-read-time">约 5 分钟</span>
+</div>
+<h2 class="article-card-title">
+<a href="singbox-advanced-route-protocols.html">sing-box路由配置升级怎么检查：版本、规则动作与最小回归验证</a>
+</h2>
+<p class="article-card-excerpt">
  YAML 看缩进，JSON 看逗号与引号，修改前先备份，改完用在线或本地工具校验。
  </p>
-        </div>
-        <div class="article-card-footer">
-          <span class="article-author-info">协议研发小组 · 2026-10-18</span>
-          <a href="singbox-advanced-route-protocols.html" class="article-read-more">查阅标定研报 &rarr;</a>
-        </div>
-      </article>
-
-      <!-- 文章 5 -->
-      <article class="article-card">
-        <div>
-          <div class="card-badge-row">
-            <span class="article-cat-tag">网络常识</span>
-            <span class="article-read-time">约 5 分钟</span>
-          </div>
-          <h2 class="article-card-title">
-            <a href="dns-leak-prevention-mechanisms.html">运营商限速与 QoS：怎样判断自己是否被限速</a>
-          </h2>
-          <p class="article-card-excerpt">
+</div>
+<div class="article-card-footer">
+<span class="article-author-info">协议研发小组 · 2026-10-18</span>
+<a class="article-read-more" href="singbox-advanced-route-protocols.html">查阅标定研报 →</a>
+</div>
+</article>
+<!-- 文章 5 -->
+<article class="article-card">
+<div>
+<div class="card-badge-row">
+<span class="article-cat-tag">网络常识</span>
+<span class="article-read-time">约 5 分钟</span>
+</div>
+<h2 class="article-card-title">
+<a href="dns-leak-prevention-mechanisms.html">DNS检测结果与预期不一致怎么办：系统、浏览器与代理解析分层核对</a>
+</h2>
+<p class="article-card-excerpt">
  用不同应用与不同网络做对比测试，记录数据，再理性地与运营商沟通。
  </p>
-        </div>
-        <div class="article-card-footer">
-          <span class="article-author-info">安全防务科 · 2026-10-17</span>
-          <a href="dns-leak-prevention-mechanisms.html" class="article-read-more">查阅标定研报 &rarr;</a>
-        </div>
-      </article>
-
-      <!-- 文章 6 -->
-      <article class="article-card">
-        <div>
-          <div class="card-badge-row">
-            <span class="article-cat-tag">设备迁移</span>
-            <span class="article-read-time">约 6 分钟</span>
-          </div>
-          <h2 class="article-card-title">
-            <a href="cross-border-ecommerce-store-safety.html">换手机前的数据迁移清单：应用、验证器、聊天记录与照片</a>
-          </h2>
-          <p class="article-card-excerpt">
+</div>
+<div class="article-card-footer">
+<span class="article-author-info">安全防务科 · 2026-10-17</span>
+<a class="article-read-more" href="dns-leak-prevention-mechanisms.html">查阅标定研报 →</a>
+</div>
+</article>
+<!-- 文章 6 -->
+<article class="article-card">
+<div>
+<div class="card-badge-row">
+<span class="article-cat-tag">设备迁移</span>
+<span class="article-read-time">约 6 分钟</span>
+</div>
+<h2 class="article-card-title">
+<a href="cross-border-ecommerce-store-safety.html">跨境店铺协作怎样避免误登误发：活动资料、访问角色与异常会话核验</a>
+</h2>
+<p class="article-card-excerpt">
  先备份、再迁移验证器，确认新手机一切正常后才处理旧手机。
  </p>
-        </div>
-        <div class="article-card-footer">
-          <span class="article-author-info">跨境合规研究所 · 2026-10-16</span>
-          <a href="cross-border-ecommerce-store-safety.html" class="article-read-more">查阅标定研报 &rarr;</a>
-        </div>
-      </article>
-    </div>
-  </main>
-
-  <footer class="dial-base">
-    <div class="container">
-      <ul class="dial-base-nav">
-        <li><a href="sitemap.html">网站地图</a></li>
-        <li><a href="about.html">关于我们</a></li>
-        <li><a href="terms.html">服务条款</a></li>
-        <li><a href="privacy.html">隐私政策</a></li>
-      </ul>
-    </div>
-  </footer>
-
-  <script src="nav.js" defer></script>
+</div>
+<div class="article-card-footer">
+<span class="article-author-info">跨境合规研究所 · 2026-10-16</span>
+<a class="article-read-more" href="cross-border-ecommerce-store-safety.html">查阅标定研报 →</a>
+</div>
+</article>
+</div>
+</main>
+<footer class="dial-base">
+<div class="container">
+<ul class="dial-base-nav">
+<li><a href="sitemap.html">网站地图</a></li>
+<li><a href="about.html">关于我们</a></li>
+<li><a href="terms.html">服务条款</a></li>
+<li><a href="privacy.html">隐私政策</a></li>
+</ul>
+</div>
+</footer>
+<script defer="" src="nav.js"></script>
 </body>
 </html>

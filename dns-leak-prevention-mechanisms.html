@@ -1,100 +1,106 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>运营商限速与 QoS：怎样判断自己是否被限速 - 隐云度量纪实</title>
-  <meta name="description" content="感觉某些服务总是很慢，是不是被限速了？介绍对比测试的方法、不同应用的速度差异、如何记录证据以及与运营商沟通的建议。">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DNS检测结果与预期不一致怎么办：系统、浏览器与代理解析分层核对</title>
+<meta content="DNS检测结果与预期不一致怎么办：系统、浏览器与代理解析分层核对，包含操作次序、结果判读与适用条件，帮助读者把实际任务和连接问题分开验证。" name="description"/>
+<link href="style.css" rel="stylesheet"/>
 </head>
 <body>
-  <header class="chronometer-masthead">
-    <div class="masthead-inner">
-      <a href="index.html" class="brand-dial" aria-label="隐云机场首页">
-        <svg viewBox="0 0 170 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="goldDial" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#ffffff" />
-              <stop offset="50%" stop-color="#fef3c7" />
-              <stop offset="100%" stop-color="#f59e0b" />
-            </linearGradient>
-          </defs>
-          <circle cx="20" cy="20" r="16" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2 1.5" />
-          <circle cx="20" cy="20" r="12" stroke="#d97706" stroke-width="1" />
-          <line x1="20" y1="4" x2="20" y2="36" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.5" />
-          <line x1="4" y1="20" x2="36" y2="20" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.5" />
-          <circle cx="20" cy="20" r="3" fill="#ef4444" />
-          <circle cx="20" cy="20" r="1" fill="#ffffff" />
-          <text x="44" y="27" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="900" fill="url(#goldDial)" letter-spacing="1.5">隐云机场</text>
-        </svg>
-      </a>
-      <ul class="dial-nav-links">
-        <li><a href="index.html#stability">稳定基准</a></li>
-        <li><a href="index.html#interconnect">算力互联</a></li>
-        <li><a href="index.html#pricing">量程方案</a></li>
-        <li><a href="index.html#logs">实测记录</a></li>
-        <li><a href="index.html#faq">精密问答</a></li>
-        <li><a href="precision-chronicles.html" style="color:#fbbf24;">度量纪实</a></li>
-      </ul>
-      <div class="header-actions">
-        <a href="https://ww012.twilightaff.com/#/?code=A56DH1Af" target="_blank" rel="nofollow" class="btn-calibrate-top">标定校准</a>
-        <button class="nav-toggle" aria-label="切换导航菜单" aria-expanded="false">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <div class="article-header">
-    <div class="container">
-      <div class="article-meta-bar">
- <span>工程归档：网络常识</span>
- <span>•</span>
- <span>标定日期：2026-11-13</span>
- <span>•</span>
- <span>预计读时：约 5 分钟</span>
- </div>
-      <h1 class="article-h1-title">运营商限速与 QoS：怎样判断自己是否被限速</h1>
-      <p class="article-lead-p">
+<header class="chronometer-masthead">
+<div class="masthead-inner">
+<a aria-label="隐云机场首页" class="brand-dial" href="index.html">
+<svg fill="none" viewbox="0 0 170 40" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="goldDial" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#ffffff"></stop>
+<stop offset="50%" stop-color="#fef3c7"></stop>
+<stop offset="100%" stop-color="#f59e0b"></stop>
+</lineargradient>
+</defs>
+<circle cx="20" cy="20" r="16" stroke="#f59e0b" stroke-dasharray="2 1.5" stroke-width="1.5"></circle>
+<circle cx="20" cy="20" r="12" stroke="#d97706" stroke-width="1"></circle>
+<line stroke="#f59e0b" stroke-opacity="0.5" stroke-width="1" x1="20" x2="20" y1="4" y2="36"></line>
+<line stroke="#f59e0b" stroke-opacity="0.5" stroke-width="1" x1="4" x2="36" y1="20" y2="20"></line>
+<circle cx="20" cy="20" fill="#ef4444" r="3"></circle>
+<circle cx="20" cy="20" fill="#ffffff" r="1"></circle>
+<text fill="url(#goldDial)" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="900" letter-spacing="1.5" x="44" y="27">隐云机场</text>
+</svg>
+</a>
+<ul class="dial-nav-links">
+<li><a href="index.html#stability">稳定基准</a></li>
+<li><a href="index.html#interconnect">算力互联</a></li>
+<li><a href="index.html#pricing">量程方案</a></li>
+<li><a href="index.html#logs">实测记录</a></li>
+<li><a href="index.html#faq">精密问答</a></li>
+<li><a href="precision-chronicles.html" style="color:#fbbf24;">度量纪实</a></li>
+</ul>
+<div class="header-actions">
+<a class="btn-calibrate-top" href="https://ww012.twilightaff.com/#/?code=A56DH1Af" rel="nofollow" target="_blank">标定校准</a>
+<button aria-expanded="false" aria-label="切换导航菜单" class="nav-toggle">
+<span class="bar"></span>
+<span class="bar"></span>
+<span class="bar"></span>
+</button>
+</div>
+</div>
+</header>
+<div class="article-header">
+<div class="container">
+<div class="article-meta-bar">
+<span>工程归档：网络常识</span>
+<span>•</span>
+<span>标定日期：2026-11-13</span>
+<span>•</span>
+<span>预计读时：约 5 分钟</span>
+</div>
+<h1 class="article-h1-title">DNS检测结果与预期不一致怎么办：系统、浏览器与代理解析分层核对</h1>
+<p class="article-lead-p">
  并非每次慢都是被限速。先用对比测试排除其他原因，再下结论。
  </p>
-    </div>
-  </div>
-
-  <main class="container">
-    <div class="article-body-wrapper">
-      <article class="article-rich-content">
-<h2>什么是 QoS 与限速</h2>
-<p>运营商或网络设备可能对特定类型的流量设置优先级或限制，以便管理网络拥堵。有的是合理的流量管理，有的则可能影响用户体验。</p>
-<h2>怎么对比测试</h2>
-<ul><li>用同一时段测试不同网站与应用的速度。</li><li>使用手机移动网络与家庭宽带对比。</li><li>开启与关闭加速服务各测一次。</li></ul>
-<h2>解读结果</h2>
-<p>如果只有某一类服务始终很慢，而其他都正常，且换网络后恢复，才有可能与流量管理有关；若所有服务都慢，多半是宽带本身或本地网络。</p>
-<h2>记录证据</h2>
-<p>记录时间、测试方法与结果，并截图保存，方便向运营商反映。</p>
-<h2>沟通的建议</h2>
-<p>保持礼貌，描述具体现象，请求技术核查，并询问是否有合适的套餐或线路选择。</p>
- </article>
-
-      <div class="post-back-bar">
-        <a href="precision-chronicles.html" style="text-decoration:none;font-weight:700;">&larr; 返回度量纪实列表</a>
-        <a href="cross-border-ecommerce-store-safety.html" style="text-decoration:none;font-weight:700;">标定下一篇：换手机前的数据迁移清单：应用、验证器、聊天记录与照片 &rarr;</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="dial-base">
-    <div class="container">
-      <ul class="dial-base-nav">
-        <li><a href="sitemap.html">网站地图</a></li>
-        <li><a href="about.html">关于我们</a></li>
-        <li><a href="terms.html">服务条款</a></li>
-        <li><a href="privacy.html">隐私政策</a></li>
-      </ul>
-    </div>
-  </footer>
-  <script src="nav.js" defer></script>
+</div>
+</div>
+<main class="container">
+<div class="article-body-wrapper">
+<article class="article-rich-content"><div data-swc-article-body="2026-11-16"><h2>先定义自己期望谁来解析</h2>
+<p>看到检测页面出现陌生解析服务，不能立刻认定发生严重泄露。首先要明确你希望系统、浏览器和代理分别采用什么解析路径，以及检测页面实际能观察什么。不同程序可以有独立设置，同一设备也未必所有查询都走同一处。排查目标应是验证配置与预期一致，而不是追求一个没有来源说明的安全分数。</p>
+<h2>画出三层可能的解析来源</h2>
+<p>第一层是操作系统通过网络接口获得或手工设置的DNS，第二层是浏览器自己的安全DNS功能，第三层是代理客户端按规则执行的解析。它们可能组合工作，也可能在某些应用中只有其中一层生效。把当前模式、设备和软件版本记录下来，避免将浏览器测试结果当成整台电脑所有程序的结论。</p>
+<h2>第一步读取系统当前设置</h2>
+<p>在Windows的当前网络连接设置中查看DNS分配方式，或使用ipconfig /all读取各适配器信息。只记录实际使用的接口，不把所有虚拟接口的服务器混成一组。自动获取的地址可能来自路由器或单位网络，应先了解用途。公司内部名称可能依赖专用解析，不能为了让公开检测更好看就随意覆盖。</p>
+<h2>第二步检查浏览器安全DNS</h2>
+<p>在Chrome的设置中进入隐私和安全、安全相关页面，查看使用安全DNS的当前状态与提供方。界面随版本可能调整，应以当前帮助说明为准。自动模式与手工指定提供方的行为可能不同，受管理设备也可能由组织策略控制。先记录原值，不在不了解后果时同时更换系统和浏览器两层设置。</p>
+<p>浏览器启用加密解析，并不代表其他桌面应用自动采用同样的提供方。加密保护的是相应传输环节，解析服务本身仍会处理查询。选择提供方时应理解其隐私与兼容条件，不把出现HTTPS字样当成整个设备匿名的证明。应用访问目标网站后，登录账户和会话仍可能识别用户。</p>
+<h2>第三步核对代理的解析策略</h2>
+<p>查看客户端当前有效配置中与DNS、路由和模式有关的部分，确认是本地解析、远端解析还是按规则区分。某些机制会使用映射地址，不能只因系统返回非传统目标地址就断定出错。按该客户端当前文档理解字段，不从不同核心教程里拼接设置。尤其要核对修改的配置是否真的被加载。</p>
+<h2>第四步一次只改变一层做测试</h2>
+<p>选一个允许测试的公开域名，先记录当前浏览器表现与客户端连接信息。然后只调整已理解的一层，按软件要求应用变更，再重复相同操作。已有缓存可能影响结果，因此注明是否是新查询或新会话，不用第二次打开更快就证明解析更好。测试结束后恢复没有必要保留的改动。</p>
+<h2>第五步解释检测服务的观察范围</h2>
+<p>公开检测网站往往通过特定查询推测参与解析的服务器，它看到的是那次测试链路，不一定覆盖其他程序或以后所有请求。服务名称、网络组织和地理标签也可能与实际部署存在差别。保存测试日期与工具说明，把结果作为证据之一，再结合自己的配置与应用行为判断，不靠单张截图扩大结论。</p>
+<h2>发现意外路径后先缩小原因</h2>
+<p>如果只有一个浏览器与预期不同，先检查其独立设置和扩展；所有应用都不同，再看系统接口与客户端模式。若只在某类域名上不同，可能涉及规则分流或单位解析。不要直接关闭所有防护或添加大范围拦截来强行统一结果，这可能破坏登录、局域网设备和必要的内部服务。</p>
+<h2>连接服务选择要与配置能力一致</h2>
+<p>参考<a href="https://dajichang.mom/">DNS配置机场服务比较</a>时，把所用系统、客户端和实际解析需求列出来，确认服务提供的说明能否覆盖这些条件。普通套餐介绍无法证明你的每个应用已正确配置。若你无法维护复杂规则，优先选择能够解释并恢复的简单方案，而不是为了技术名词增加更多难以检查的层次。</p>
+<h2>用功能验收补上隐私检查</h2>
+<p>完成调整后验证普通网页、一个桌面应用和一个局域网任务，确认解析变化没有造成新的故障。若需要访问单位资源，还应沿批准方式检查相关名称。最终记录预期解析方、实际观察、适用应用与未覆盖范围。清楚知道哪些条件已验证，比笼统宣布从此绝不会泄露更可信，也便于软件升级后复查。</p><h2>注意休眠与网络切换后的变化</h2><p>设备从办公室移到家中，或者休眠后重新接入，可能取得不同网络设置。若问题只在这些时刻出现，就在变化前后分别记录有效接口与浏览器状态。无需每天重配全部解析，只需围绕发生变化的条件复查，才能判断是自动获取、策略更新还是应用保留旧连接造成差异。</p></div></article>
+<div class="post-back-bar">
+<a href="precision-chronicles.html" style="text-decoration:none;font-weight:700;">← 返回度量纪实列表</a>
+<a href="cross-border-ecommerce-store-safety.html" style="text-decoration:none;font-weight:700;">标定下一篇：换手机前的数据迁移清单：应用、验证器、聊天记录与照片 →</a>
+</div>
+</div>
+</main>
+<footer class="dial-base">
+<div class="container">
+<ul class="dial-base-nav">
+<li><a href="sitemap.html">网站地图</a></li>
+<li><a href="about.html">关于我们</a></li>
+<li><a href="terms.html">服务条款</a></li>
+<li><a href="privacy.html">隐私政策</a></li>
+</ul>
+</div>
+</footer>
+<script defer="" src="nav.js"></script>
 </body>
 </html>

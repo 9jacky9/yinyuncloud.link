@@ -1,102 +1,109 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>隐云使用心得：一个月后保留下来的五个习惯 - 隐云度量纪实</title>
-  <meta name="description" content="用了一个月之后，哪些习惯真正有用？总结五个保留下来的使用习惯：固定主力节点、定期更新、记录问题、分场景使用与备份配置。">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>隐云机场用于翻译团队协作：术语表、双语文件与审校交付验收</title>
+<meta content="隐云机场用于翻译团队协作：术语表、双语文件与审校交付验收，包含操作次序、结果判读与适用条件，帮助读者把实际任务和连接问题分开验证。" name="description"/>
+<link href="style.css" rel="stylesheet"/>
 </head>
 <body>
-  <header class="chronometer-masthead">
-    <div class="masthead-inner">
-      <a href="index.html" class="brand-dial" aria-label="隐云机场首页">
-        <svg viewBox="0 0 170 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="goldDial" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#ffffff" />
-              <stop offset="50%" stop-color="#fef3c7" />
-              <stop offset="100%" stop-color="#f59e0b" />
-            </linearGradient>
-          </defs>
-          <circle cx="20" cy="20" r="16" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2 1.5" />
-          <circle cx="20" cy="20" r="12" stroke="#d97706" stroke-width="1" />
-          <line x1="20" y1="4" x2="20" y2="36" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.5" />
-          <line x1="4" y1="20" x2="36" y2="20" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.5" />
-          <circle cx="20" cy="20" r="3" fill="#ef4444" />
-          <circle cx="20" cy="20" r="1" fill="#ffffff" />
-          <text x="44" y="27" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="900" fill="url(#goldDial)" letter-spacing="1.5">隐云机场</text>
-        </svg>
-      </a>
-      <ul class="dial-nav-links">
-        <li><a href="index.html#stability">稳定基准</a></li>
-        <li><a href="index.html#interconnect">算力互联</a></li>
-        <li><a href="index.html#pricing">量程方案</a></li>
-        <li><a href="index.html#logs">实测记录</a></li>
-        <li><a href="index.html#faq">精密问答</a></li>
-        <li><a href="precision-chronicles.html" style="color:#fbbf24;">度量纪实</a></li>
-      </ul>
-      <div class="header-actions">
-        <a href="https://ww012.twilightaff.com/#/?code=A56DH1Af" target="_blank" rel="nofollow" class="btn-calibrate-top">标定校准</a>
-        <button class="nav-toggle" aria-label="切换导航菜单" aria-expanded="false">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <div class="article-header">
-    <div class="container">
-      <div class="article-meta-bar">
- <span>工程归档：使用心得</span>
- <span>•</span>
- <span>标定日期：2026-11-12</span>
- <span>•</span>
- <span>预计读时：约 5 分钟</span>
- </div>
-      <h1 class="article-h1-title">隐云使用心得：一个月后保留下来的五个习惯</h1>
-      <p class="article-lead-p">
+<header class="chronometer-masthead">
+<div class="masthead-inner">
+<a aria-label="隐云机场首页" class="brand-dial" href="index.html">
+<svg fill="none" viewbox="0 0 170 40" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="goldDial" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#ffffff"></stop>
+<stop offset="50%" stop-color="#fef3c7"></stop>
+<stop offset="100%" stop-color="#f59e0b"></stop>
+</lineargradient>
+</defs>
+<circle cx="20" cy="20" r="16" stroke="#f59e0b" stroke-dasharray="2 1.5" stroke-width="1.5"></circle>
+<circle cx="20" cy="20" r="12" stroke="#d97706" stroke-width="1"></circle>
+<line stroke="#f59e0b" stroke-opacity="0.5" stroke-width="1" x1="20" x2="20" y1="4" y2="36"></line>
+<line stroke="#f59e0b" stroke-opacity="0.5" stroke-width="1" x1="4" x2="36" y1="20" y2="20"></line>
+<circle cx="20" cy="20" fill="#ef4444" r="3"></circle>
+<circle cx="20" cy="20" fill="#ffffff" r="1"></circle>
+<text fill="url(#goldDial)" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="900" letter-spacing="1.5" x="44" y="27">隐云机场</text>
+</svg>
+</a>
+<ul class="dial-nav-links">
+<li><a href="index.html#stability">稳定基准</a></li>
+<li><a href="index.html#interconnect">算力互联</a></li>
+<li><a href="index.html#pricing">量程方案</a></li>
+<li><a href="index.html#logs">实测记录</a></li>
+<li><a href="index.html#faq">精密问答</a></li>
+<li><a href="precision-chronicles.html" style="color:#fbbf24;">度量纪实</a></li>
+</ul>
+<div class="header-actions">
+<a class="btn-calibrate-top" href="https://ww012.twilightaff.com/#/?code=A56DH1Af" rel="nofollow" target="_blank">标定校准</a>
+<button aria-expanded="false" aria-label="切换导航菜单" class="nav-toggle">
+<span class="bar"></span>
+<span class="bar"></span>
+<span class="bar"></span>
+</button>
+</div>
+</div>
+</header>
+<div class="article-header">
+<div class="container">
+<div class="article-meta-bar">
+<span>工程归档：使用心得</span>
+<span>•</span>
+<span>标定日期：2026-11-12</span>
+<span>•</span>
+<span>预计读时：约 5 分钟</span>
+</div>
+<h1 class="article-h1-title">隐云机场用于翻译团队协作：术语表、双语文件与审校交付验收</h1>
+<p class="article-lead-p">
  一个月后回头看，真正留下来的只有几个朴素的习惯。
  </p>
-    </div>
-  </div>
-
-  <main class="container">
-    <div class="article-body-wrapper">
-      <article class="article-rich-content">
-<h2>习惯一：固定一个主力节点</h2>
-<p>不必每天换节点。找到表现最稳的一个固定下来，换节点只在出现问题时。</p>
-<h2>习惯二：定期更新</h2>
-<p>每个月检查一次客户端与规则集更新，系统时间保持自动同步。</p>
-<h2>习惯三：简单记录问题</h2>
-<p>遇到异常，记一行：时间、节点、现象。积累后能看出规律，也方便联系客服。</p>
-<h2>习惯四：分场景使用</h2>
-<ul><li>办公与浏览：使用主力节点。</li><li>视频与下载：选择带宽充裕的节点。</li><li>游戏：选择延迟低的节点。</li></ul>
-<h2>习惯五：备份配置</h2>
-<p>修改前导出配置，保留最近几个版本，换设备时能迅速恢复。</p>
-<h2>最后</h2>
-<p>习惯比技巧更长久。隐云提供免费试用，可以先用它建立自己的习惯。</p>
- </article>
-
-      <div class="post-back-bar">
-        <a href="precision-chronicles.html" style="text-decoration:none;font-weight:700;">&larr; 返回度量纪实列表</a>
-        <a href="openai-api-rate-limit-optimization.html" style="text-decoration:none;font-weight:700;">标定下一篇：API 密钥保管：不要写进代码与聊天记录 &rarr;</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="dial-base">
-    <div class="container">
-      <ul class="dial-base-nav">
-        <li><a href="sitemap.html">网站地图</a></li>
-        <li><a href="about.html">关于我们</a></li>
-        <li><a href="terms.html">服务条款</a></li>
-        <li><a href="privacy.html">隐私政策</a></li>
-      </ul>
-    </div>
-  </footer>
-  <script src="nav.js" defer></script>
+</div>
+</div>
+<main class="container">
+<div class="article-body-wrapper">
+<article class="article-rich-content"><div data-swc-article-body="2026-11-16"><h2>翻译交付需要的不只是打开网页</h2>
+<p>小型翻译团队可能同时使用在线术语库、共享文档、桌面排版和客户交付平台。某个网页打开很快，不代表译文、批注和附件都能完整流转。评估隐云机场时，可以用一份不含客户秘密的双语样本，把从接收材料到最终交付的过程走一遍。本文提供验收方法，不声称已测得品牌速度或拥有其内部架构证据。</p>
+<h2>先确认服务与项目的使用边界</h2>
+<p>查看<a href="https://yinyuncloud.link/">隐云机场协作说明</a>中的设备与配置条件，并确认团队和客户允许使用的接入方式。连接服务不会替代术语库订阅、客户平台权限或资料保密要求。若项目禁止上传到某类外部工具，应按项目规则处理，不能因为网络能够连接就把受限原文送到未经批准的位置。</p>
+<h2>准备一份可以重复使用的样本</h2>
+<p>样本包含几页正文、一张表格、脚注、特殊字符和两条批注，用来覆盖日常工作中容易出错的元素。给文件写上明确版本号，再由一名译者和一名审校者分别操作。不要用一个空白文档测试后就宣布整个工作流通过；传输成功和内容排版正确是不同的验收项目。</p>
+<h2>第一轮验证接收与本地打开</h2>
+<p>译者从批准的平台取得样本，核对文件名、大小与版本，在实际使用的软件中打开。检查特殊字符、表格行列和脚注是否正常。若文件打不开，先区分下载不完整、格式不兼容或本地软件问题，不能直接换线路后重下十次。对同一错误保留具体提示，方便进一步定位。</p>
+<h2>第二轮验证术语资料的可用性</h2>
+<p>选择三条已知术语，分别检索、查看上下文并记录来源位置。在线术语库能登录但查询长时间无结果，可能涉及服务响应或账户权限，应与普通网页访问分开。桌面工具若使用独立连接设置，也要单独测试。不要把浏览器成功等同于全部翻译软件已经采用相同出站。</p>
+<h2>第三轮验证双人批注与同步</h2>
+<p>译者修改一处样本文字并添加批注，等待平台明确保存后，由审校者在另一台设备读取。审校者回复后，译者再核对结果。两端都应看见同一版本，不能只检查自己的屏幕。若出现冲突，先保留双方未同步改动，再按工具提供的版本或合并方式处理，不直接覆盖其中一份。</p>
+<h2>将大附件与实时沟通分开</h2>
+<p>含大量图片的资料包可能占用上行，影响同时进行的语音讨论。先在批准的位置上传完整附件，确认审校者能够读取，再开始集中讨论。需要补传时说明文件版本，避免大家在会议中同时下载不同版本。网络评价应记录整包完成时间和失败恢复，而不是只看开始时的瞬间速度。</p>
+<h2>用审校清单验收内容完整性</h2>
+<p>检查页数、表格、脚注、批注状态和文件名，再核对是否包含最终批准的术语。连接恢复后仍可能留下旧附件或未提交修改，因此不能以客户端显示已连接作为交付完成。让接收方打开最终文件并确认版本，才算闭合这一轮。样本测试通过后，正式项目仍按原有审校程序执行。</p>
+<h2>预演一次临时掉线后的接续</h2>
+<p>在不影响客户项目的测试中正常断开连接，查看文档是否清楚提示离线以及本地修改保存在哪里。重新接入后确认同步状态，再让另一人读取。记录哪些动作可以离线完成，哪些必须等待平台回应。不要在不清楚状态时重复提交整份交付包，以免客户收到多个相似版本难以辨认。</p>
+<h2>费用与账户条件按实际工作量核算</h2>
+<p>用最近项目的文件规模、在线时段和并发设备估算需求，再核对套餐额度与计费规则。若服务提供短期体验，应按当前条款确认，不能假定永远存在免费试用。团队成员也不应在规则不清时共用同一凭据。是否划算，应结合真实任务完成情况与支持条件，而不是只看标称带宽。</p>
+<h2>把支持问题写成可复现步骤</h2>
+<p>遇到异常时记录时间、软件版本、发生阶段和脱敏错误，用公开样本重现即可先排查。不要把客户完整合同、术语资产或账户令牌发进公开群。支持人员若建议更改配置，先理解影响并保留原值，再用样本验证。一次建议有效，只能说明当时条件下解决了问题，不代表所有项目都适用。</p>
+<h2>建立能持续复用的交付标准</h2>
+<p>最后留下接收、术语检索、批注同步、附件上传和接收确认五项结果。若隐云在其中某些环节适合当前条件，可以据此保留；仍有未知项就明确列出。团队真正需要的是内容可追溯、版本可确认和故障可恢复。连接方案只有支持这些工作，才算帮助完成了实际交付，而不是增加另一个需要猜测的环节。</p><p>每次验收注明日期。</p></div></article>
+<div class="post-back-bar">
+<a href="precision-chronicles.html" style="text-decoration:none;font-weight:700;">← 返回度量纪实列表</a>
+<a href="openai-api-rate-limit-optimization.html" style="text-decoration:none;font-weight:700;">标定下一篇：API 密钥保管：不要写进代码与聊天记录 →</a>
+</div>
+</div>
+</main>
+<footer class="dial-base">
+<div class="container">
+<ul class="dial-base-nav">
+<li><a href="sitemap.html">网站地图</a></li>
+<li><a href="about.html">关于我们</a></li>
+<li><a href="terms.html">服务条款</a></li>
+<li><a href="privacy.html">隐私政策</a></li>
+</ul>
+</div>
+</footer>
+<script defer="" src="nav.js"></script>
 </body>
 </html>
