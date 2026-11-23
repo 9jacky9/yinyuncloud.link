@@ -47,6 +47,7 @@
   }
   </script>
 <link href="style.css" rel="stylesheet"/>
+<style id="maintenance-anchor-offset">#pricing{scroll-margin-top:180px;}</style>
 </head>
 <body>
 <!-- 顶部经纬表头导航 -->
@@ -112,7 +113,7 @@
 <polyline points="9 18 15 12 9 6"></polyline>
 </svg>
 </a>
-<a class="btn-chronometer-pbn" href="#plans" target="_blank">
+<a class="btn-chronometer-pbn" href="#pricing">
 <span>查看套餐资费</span>
 <svg fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="16">
 <circle cx="12" cy="12" r="10"></circle>
@@ -516,5 +517,23 @@
 </div>
 </footer>
 <script defer="" src="nav.js"></script>
+<script id="maintenance-anchor-offset-script">
+(() => {
+  const targets = ["pricing"];
+  const headers = [...document.querySelectorAll('header,nav,[class*="nav"],[class*="header"]')];
+  const update = () => {
+    const height = Math.max(0, ...headers.map(el => {
+      const box = el.getBoundingClientRect();
+      const position = getComputedStyle(el).position;
+      return ['fixed','sticky'].includes(position) && box.width > innerWidth / 2 && box.height < 400 ? box.height : 0;
+    }));
+    targets.forEach(id => { const el = document.getElementById(id); if (el) el.style.scrollMarginTop = Math.ceil(height + 16) + 'px'; });
+  };
+  update();
+  addEventListener('resize', update, {passive: true});
+  if ('ResizeObserver' in window) { const observer = new ResizeObserver(update); headers.forEach(el => observer.observe(el)); }
+  if (document.fonts) document.fonts.ready.then(update);
+})();
+</script>
 </body>
 </html>
